@@ -1,14 +1,12 @@
 const crypto = require("crypto");
 const Order = require("../models/Order");
 const Payment = require("../models/Payment");
+const Enrollment = require("../models/Enrollment");
 
 exports.verifyPayment = async (req, res) => {
   try {
-    const {
-      razorpay_order_id,
-      razorpay_payment_id,
-      razorpay_signature
-    } = req.body;
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+      req.body;
 
     // Create expected signature
     const body = razorpay_order_id + "|" + razorpay_payment_id;
@@ -33,12 +31,18 @@ exports.verifyPayment = async (req, res) => {
       order: order._id,
       razorpayPaymentId: razorpay_payment_id,
       razorpaySignature: razorpay_signature,
-      status: "SUCCESS"
+      status: "SUCCESS",
     });
 
     // Update order status
     order.status = "PAID";
     await order.save();
+
+    // Save enrollment
+    await Enrollment.create({
+      user: order.user,
+      course: order.course,
+    });
 
     res.json({ message: "Payment verified successfully" });
   } catch (error) {

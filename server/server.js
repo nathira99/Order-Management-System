@@ -17,6 +17,8 @@ app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/orders", require("./routes/orderRoutes"));
 app.use("/api/payments", require("./routes/paymentRoutes"));
 app.use("/api/admin", require("./routes/adminRoutes"));
+app.use("/api/enrollments", require("./routes/enrollmentRoutes"));
+app.use("/api/courses", require("./routes/courseRoutes"));
 
 app.get("/api/protected", protect, (req, res) => {
   res.json({ message: "Protected route", user: req.user });

@@ -9,9 +9,9 @@ function UserDashboard() {
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/enrollments/my", {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       })
-      .then(res => {
+      .then((res) => {
         console.log("ENROLLMENTS:", res.data); // 🔴 DEBUG LINE
         setEnrollments(res.data);
       });
@@ -23,17 +23,14 @@ function UserDashboard() {
 
       {enrollments.length === 0 && <p>No courses purchased yet.</p>}
 
-      {enrollments.map(e => (
-        e.course && (  
-          <div
-            key={e._id}
-            style={{ border: "1px solid #ccc", padding: 15, marginTop: 10 }}
-          >
-            <h4>{e.course.title}</h4>
-            <p>{e.course.description}</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {enrollments.map((e) => (
+          <div key={e._id} className="bg-white p-4 rounded shadow">
+            <h4 className="font-semibold">{e.course.title}</h4>
+            <p className="text-sm text-gray-600">{e.course.description}</p>
           </div>
-        )
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

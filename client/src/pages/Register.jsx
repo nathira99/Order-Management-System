@@ -1,25 +1,27 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { loginUser } from "../services/authApi";
-import { setToken, getRole } from "../utils/auth";
+import { registerUser } from "../services/authApi";
 
-function Login() {
+function Register() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const submit = async (e) => {
     e.preventDefault();
     setError("");
+    setSuccess("");
 
     try {
-      const res = await loginUser({ email, password });
-      setToken(res.data.token);
-
-      const role = getRole();
-      window.location.href = role === "admin" ? "/admin" : "/courses";
+      await registerUser({ name, email, password });
+      setSuccess("Account created successfully. Please login.");
+      setName("");
+      setEmail("");
+      setPassword("");
     } catch (err) {
-      setError(err.response?.data?.message || "Invalid credentials");
+      setError(err.response?.data?.message || "Registration failed");
     }
   };
 
@@ -27,8 +29,8 @@ function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm">
         <h1 className="text-3xl font-bold text-center mb-6 text-blue-600">Online Academy</h1>
-        <h2 className="text-2xl font-semibold text-center mb-6">
-          Welcome Back!!
+        <h2 className="text-xl font-semibold text-center mb-6">
+          Create an Account
         </h2>
 
         {error && (
@@ -37,7 +39,22 @@ function Login() {
           </div>
         )}
 
+        {success && (
+          <div className="bg-green-100 text-green-700 p-2 mb-4 rounded text-sm">
+            {success}
+          </div>
+        )}
+
         <form onSubmit={submit} className="space-y-4">
+          <input
+            type="text"
+            placeholder="Full Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            className="border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
           <input
             type="email"
             placeholder="Email"
@@ -53,7 +70,7 @@ function Login() {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            autoComplete="current-password"
+            autoComplete="new-password"
             required
             className="border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -62,25 +79,19 @@ function Login() {
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
           >
-            Login
+            Register
           </button>
         </form>
 
-        <div className="mt-4 text-sm text-center space-y-2">
+        <div className="mt-4 text-sm text-center">
           <p>
-            Don’t have an account?{" "}
+            Already have an account?{" "}
             <Link
-              to="/register"
+              to="/login"
               className="text-blue-600 hover:underline font-medium"
             >
-              Create one
+              Login
             </Link>
-          </p>
-
-          <p>
-            <span className="text-gray-400 cursor-pointer">
-              Forgot password?
-            </span>
           </p>
         </div>
       </div>
@@ -88,4 +99,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;

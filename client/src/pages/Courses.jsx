@@ -65,19 +65,43 @@ function Courses() {
   }, []);
 
   return (
-    <div style={{ padding: 40 }}>
-      <h2>Courses</h2>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+  {courses.map(course => (
+    <div
+      key={course._id}
+      className="bg-white rounded-lg shadow p-5"
+    >
+      <img 
+        src="images/courses/tajweed.jpg"
+        alt= "tajweed course"
+        className="w-full h-40 object-cover rounded-lg mb-4"
+      />
+      <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
+        {course.category}
+      </span>
 
-      {courses.map((course) => (
-        <div key={course._id}>
-          <h3>{course.title}</h3>
-          <p>{course.description}</p>
-          <strong>₹{course.price / 100}</strong>
-          <br />
-          <button onClick={() => pay(course)}>Enroll</button>
-        </div>
-      ))}
+      <h3 className="text-lg font-semibold mt-2">
+        {course.title}
+      </h3>
+
+      <p className="text-gray-600 text-sm mt-1">
+        {course.description}
+      </p>
+
+      <p className="font-bold mt-3">
+        ₹{course.price / 100}
+      </p>
+
+      <button
+        onClick={() => pay(course)}
+        className="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+      >
+        Enroll Now
+      </button>
     </div>
+  ))}
+  
+      </div>
   );
 }
 

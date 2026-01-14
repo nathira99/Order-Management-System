@@ -1,4 +1,4 @@
-const Teacher = require("../models/Teachers");
+const Teacher = require("../models/Teacher");
 
 exports.createTeacher = async (req, res) => {
   try {
@@ -24,8 +24,11 @@ exports.createTeacher = async (req, res) => {
 };
 
 exports.getTeachers = async (req, res) => {
-  const teachers = await Teacher.find({ isActive: true }).sort({ name: 1 });
+ try { const teachers = await Teacher.find().select("name email");
   res.json(teachers);
+} catch (err) {
+  res.status(500).json({ message: "Failed to fetch teachers" });
+}
 };
 
 exports.getTeacherById = async (req, res) => {
@@ -42,5 +45,6 @@ exports.updateTeacher = async (req, res) => {
     req.body,
     { new: true }
   );
+  
   res.json(teacher);
 };

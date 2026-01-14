@@ -8,8 +8,9 @@ function Footer() {
         {/* About */}
         <div>
           <h3 className="font-semibold mb-3">LearnHub</h3>
-          <p className="text-sm text-gray-400">
-            A modern online learning platform for academic and skill-based education.
+          <p className="text-sm text-gray-400 pr-12">
+            A modern online learning platform for 
+            academic and skill-based education.
           </p>
         </div>
 

@@ -10,9 +10,9 @@ function Navbar() {
     <nav className="bg-white border-b shadow-sm">
       <div className="max-w-screen px-4 py-3 flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <LucideHeartHandshake className="text-emerald-900" size={48} />
+          <LucideHeartHandshake className="text-slate-900" size={48} />
           {/* Logo / Brand */}
-          <Link to="/" className="text-4xl font-bold text-emerald-800">
+          <Link to="/" className="text-4xl font-bold text-slate-800">
             Online Academy
           </Link>
         </div>
@@ -27,7 +27,7 @@ function Navbar() {
           </Link>
           <Link
             to="/about"
-            className="text-slate-700 hover:text-slate-900 font-medium"
+            className="text-slate-700 hover:text-blue-600 font-medium"
           >
             About
           </Link>
@@ -50,7 +50,7 @@ function Navbar() {
 
               <button
                 onClick={logout}
-                className="text-red-500 hover:underline text-sm"
+                className="text-red-500 hover:underline font-medium"
               >
                 Logout
               </button>

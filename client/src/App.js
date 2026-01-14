@@ -13,6 +13,7 @@ import CourseList from "./pages/admin/CourseList";
 import AdminDashboard from "./pages/AdminDashboard";
 import UserDashboard from "./pages/UserDashboard";
 import AddCourse from "./pages/admin/AddCourse";
+import CourseDetail from "./pages/CourseDetail";
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/courses/:id" element={<CourseDetail />} />
         <Route
           path="/admin/courses"
           element={

@@ -7,14 +7,15 @@ const {
   updateTeacher,
 } = require("../controllers/teacherController");
 
-const { protect, admin } = require("../middlewares/authMiddleware");
+const { protect, adminOnly } = require("../middlewares/authMiddleware");
 
-// Admin only
-router.post("/", createTeacher);
-router.put("/:id", updateTeacher);
 
 // Public / Admin
-router.get("/", getTeachers);
+router.get("/", protect, adminOnly, getTeachers);
+// Admin only
+router.post("/", createTeacher);
+
 router.get("/:id", getTeacherById);
+router.patch("/admin/:id/teacher", protect, adminOnly, updateTeacher);
 
 module.exports = router;

@@ -17,7 +17,7 @@ const teacherSchema = new mongoose.Schema(
       type: String,
     },
     image: {
-      type: String, // "/images/faculty/john.jpg"
+      type: String, 
     },
     isActive: {
       type: Boolean,

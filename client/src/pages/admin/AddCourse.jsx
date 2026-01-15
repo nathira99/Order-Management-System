@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { API } from "../../utils/api";
+import { API } from "../../config/api";
 import { getToken } from "../../utils/auth";
 
 function AddCourse() {

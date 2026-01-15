@@ -74,11 +74,7 @@ Designed to simulate a real-world online academy system.
 * Razorpay API (Test Mode)
   
 ### 📁 Project Structure
-<<<<<<< HEAD
 ```
-=======
-
->>>>>>> 27f061bc77f248df7db106e7360a4bc11fa7ef9c
 Order Management System/
 ├── client/                # React frontend
 │   ├── public/

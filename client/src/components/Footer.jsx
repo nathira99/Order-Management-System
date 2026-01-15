@@ -35,7 +35,7 @@ function Footer() {
       </div>
 
       <div className="text-center text-sm text-gray-500 mt-8">
-        © {new Date().getFullYear()} Online Academy. All rights reserved.
+        © {new Date().getFullYear()} Learnify Academy. All rights reserved.
       </div>
     </footer>
   );

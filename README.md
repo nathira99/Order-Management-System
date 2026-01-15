@@ -1,18 +1,18 @@
-### 🎓 Online Learning Academy (MERN Stack)
+# 🎓 Online Learning Academy (MERN Stack)
 
 A full-stack online learning platform built using the MERN stack with role-based access, course management, secure payments, and student enrollment features.
 Designed to simulate a real-world online academy system.
 
 ## 🚀 Features
 
-# 👤 Authentication & Roles
+### 👤 Authentication & Roles
 - User registration & login (JWT based)
 - Role-based access:
   - Admin
   - Student
 - Protected routes for admin & users
 
-# 📚 Course Management
+### 📚 Course Management
 - Admin can:
     - Add, edit, activate/deactivate courses
     - Assign teachers to courses
@@ -23,21 +23,21 @@ Designed to simulate a real-world online academy system.
     - Skills
 - Course images served from public assets
   
-# 👨‍🏫 Teacher / Faculty Management
+### 👨‍🏫 Teacher / Faculty Management
 - Admin can:
     - Add teachers
     - Assign teachers to courses
     - Faculty displayed on homepage
     - Teacher-course relationship maintained in database
     - 
-# 💳 Payments & Enrollment
+### 💳 Payments & Enrollment
 - Razorpay integration (Test mode)
 - Secure payment verification
 - Prevents duplicate enrollment
 - Automatic enrollment after successful payment
 - Payment records stored with status & timestamps
   
-# 📊 Admin Dashboard
+### 📊 Admin Dashboard
 - Revenue statistics
 - Total payments
 - Active courses count
@@ -47,19 +47,19 @@ Designed to simulate a real-world online academy system.
 - Teacher assignment
 - Enrollment count
   
-# 🎓 Student Dashboard
+### 🎓 Student Dashboard
 - View enrolled courses
 - Access course details
 - Prevent re-enrollment of the same course
   
-# 🏠 Homepage
+### 🏠 Homepage
 - Hero section
 - Featured courses (from backend)
 - Faculty showcase
 - Platform highlights
 - Student feedback section
   
-# 🛠️ Tech Stack
+### 🛠️ Tech Stack
 * Frontend
 * React
 * React Router
@@ -73,8 +73,8 @@ Designed to simulate a real-world online academy system.
 * Payments
 * Razorpay API (Test Mode)
   
-# 📁 Project Structure
-
+### 📁 Project Structure
+```
 Order Management System/
 ├── client/                # React frontend
 │   ├── public/
@@ -93,8 +93,9 @@ Order Management System/
 │   └── config/
 │
 └── README.md
+```
 
-# 🔐 Environment Variables
+### 🔐 Environment Variables
 Create a .env file inside server/:
 
 ```
@@ -106,20 +107,20 @@ RAZORPAY_KEY_ID=rzp_test_xxxxx
 RAZORPAY_KEY_SECRET=xxxxx
 ```
 
-# 🧪 Payment Testing
+### 🧪 Payment Testing
 - Use Razorpay test credentials:
 - UPI / Card test modes
 - No real money involved
 - Orders & payments stored in database
 
-# 🎯 Purpose of This Project
+### 🎯 Purpose of This Project
 - This project was built to:
     - Demonstrate full-stack MERN development
     - Showcase real payment integration
     - Implement admin-level dashboards
     - Simulate a production-ready online academy
 
-# 📌 Future Enhancements (Optional)
+### 📌 Future Enhancements (Optional)
 - Course content modules
 - Video lessons
 - Certificates
@@ -127,6 +128,6 @@ RAZORPAY_KEY_SECRET=xxxxx
 - Email notifications
 - Forgot password flow
 
-# 👤 Author
+### 👤 Author
 **Nathira Farveen**
 Full Stack Developer (MERN)

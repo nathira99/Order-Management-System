@@ -1,17 +1,23 @@
+const Payment = require("../models/Payment");
 const Enrollment = require("../models/Enrollment");
+const Order = require("../models/Order");
 
 exports.verifyPayment = async (req, res) => {
   try {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+    const {
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature,
+    } = req.body;
 
-    // signature verification logic (already correct)
+    // (signature verification already correct)
 
     const order = await Order.findOne({ razorpayOrderId: razorpay_order_id });
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
 
-    // 🔒 CHECK IF ALREADY ENROLLED
+    // prevent double enrollment
     const alreadyEnrolled = await Enrollment.findOne({
       user: order.user,
       course: order.course,
@@ -27,6 +33,17 @@ exports.verifyPayment = async (req, res) => {
     order.status = "PAID";
     await order.save();
 
+    // 🔴 CREATE PAYMENT (THIS FIXES ADMIN DASHBOARD)
+    await Payment.create({
+      order: order._id,
+      user: order.user,
+      course: order.course,
+      amount: order.amount,
+      razorpayPaymentId: razorpay_payment_id,
+      razorpaySignature: razorpay_signature,
+      status: "SUCCESS",
+    });
+
     // create enrollment
     await Enrollment.create({
       user: order.user,
@@ -35,7 +52,7 @@ exports.verifyPayment = async (req, res) => {
 
     res.json({ message: "Payment verified & enrolled successfully" });
   } catch (err) {
-    console.error(err);
+    console.error("VERIFY PAYMENT ERROR:", err);
     res.status(500).json({ message: "Payment verification failed" });
   }
 };

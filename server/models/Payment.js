@@ -5,24 +5,38 @@ const paymentSchema = new mongoose.Schema(
     order: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Order",
-      required: true
+      required: true,
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    course: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course",
+      required: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
     },
     razorpayPaymentId: {
       type: String,
-      required: true
+      required: true,
     },
     razorpaySignature: {
       type: String,
-      required: true
+      required: true,
     },
     method: {
-      type: String // upi, card, netbanking
+      type: String, // upi, card, netbanking
     },
     status: {
       type: String,
       enum: ["SUCCESS", "FAILED"],
-      required: true
-    }
+      required: true,
+    },
   },
   { timestamps: true }
 );

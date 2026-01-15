@@ -1,168 +1,138 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { getStats, getPayments } from "../services/adminApi";
+import AdminLayout from "../pages/admin/AdminLayout";
+import axios from "axios";
 import { getToken } from "../utils/auth";
 
 function AdminDashboard() {
   const token = getToken();
 
+  const [page, setPage] = useState(1);
+  const [pages, setPages] = useState(1);
+  const [courseStats, setCourseStats] = useState(null);
   const [stats, setStats] = useState(null);
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [payments, setPayments] = useState([]);
 
-  const formatDate = (date) =>
-    new Date(date).toLocaleDateString("en-IN", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    })
-
+  // Course stats
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const statsRes = await getStats(token);
-        const paymentsRes = await getPayments(token);
-
-        setStats(statsRes.data);
-        setOrders(paymentsRes.data);
-      } catch (err) {
-        console.error("Admin dashboard error", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+    axios
+      .get("http://localhost:5000/api/courses/admin/stats", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => setCourseStats(res.data))
+      .catch((err) => console.error("COURSE STATS ERROR:", err));
   }, [token]);
 
+  useEffect(() => {
+  const load = async () => {
+    try {
+      const statsRes = await getStats(token);
+      const payRes = await getPayments(token, page);
+
+      setStats(statsRes.data);
+      setPayments(Array.isArray(payRes.data.payments) ? payRes.data.payments : []);
+      setPages(payRes.data.pagination.pages);
+    } catch (err) {
+      console.error("ADMIN DASHBOARD ERROR:", err);
+      setPayments([]); //  safety
+    }
+  };
+
+  load();
+}, [token, page]);
+
   return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="max-w-7xl mx-auto px-6 py-10">
+    <AdminLayout>
+      {/* Page Title */}
+      <h1 className="text-3xl font-medium text-gray-800 mb-8">
+        Admin Dashboard
+      </h1>
 
-        {/* Header */}
-        <div className="mb-10">
-          <h1 className="text-3xl font-medium text-slate-900">
-            Admin Dashboard
-          </h1>
-          <p className="text-slate-600 mt-1">
-            Manage courses, payments, and platform activity
-          </p>
+      {/* Stats Cards */}
+      {stats && courseStats && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          <StatCard
+            label="Total Revenue"
+            value={`₹${stats.totalRevenue / 100}`}
+          />
+          <StatCard label="Total Payments" value={stats.totalPayments} />
+          <StatCard label="Active Courses" value={courseStats.activeCourses} />
+        </div>
+      )}
+
+      {/* Payments Table */}
+      <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b">
+          <h2 className="text-lg font-medium">Recent Payments</h2>
         </div>
 
-        {/* Actions */}
-        <div className="flex gap-4 mb-10">
-          <Link
-            to="/admin/add-course"
-            className="px-5 py-2.5 rounded bg-slate-800 text-white hover:bg-slate-900 transition"
-          >
-            + Add Course
-          </Link>
-
-          <Link
-            to="/admin/courses"
-            className="px-5 py-2.5 rounded border border-slate-300 text-slate-700 hover:bg-white transition"
-          >
-            Manage Courses
-          </Link>
-        </div>
-
-        {/* Stats */}
-        {stats && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-            <div className="bg-white border border-slate-200 rounded-xl p-6">
-              <p className="text-sm text-slate-500">Total Revenue</p>
-              <p className="text-2xl font-semibold text-slate-900 mt-2">
-                ₹{stats.totalRevenue / 100}
-              </p>
-            </div>
-
-            <div className="bg-white border border-slate-200 rounded-xl p-6">
-              <p className="text-sm text-slate-500">Total Payments</p>
-              <p className="text-2xl font-semibold text-slate-900 mt-2">
-                {stats.totalPayments}
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* Payments Table */}
-        <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
-  <div className="px-6 py-4 border-b flex items-center justify-between">
-    <h2 className="text-lg font-medium text-slate-900">
-      Recent Payments
-    </h2>
-    <span className="text-sm text-slate-500">
-      {orders.length} records
-    </span>
-  </div>
-
-  {loading ? (
-    <div className="p-6 text-slate-500">Loading payments…</div>
-  ) : orders.length === 0 ? (
-    <div className="p-6 text-slate-500">No payments found.</div>
-  ) : (
-    <div className="overflow-x-auto">
-      <table className="w-full text-sm">
-        <thead className="bg-slate-50 text-slate-600 border-b">
-          <tr>
-            <th className="px-4 py-3 text-left font-medium">Date</th>
-            <th className="px-4 py-3 text-left font-medium">Order ID</th>
-            <th className="px-4 py-3 text-left font-medium">User</th>
-            <th className="px-4 py-3 text-left font-medium">Course</th>
-            <th className="px-4 py-3 text-right font-medium">Amount</th>
-            <th className="px-4 py-3 text-center font-medium">Status</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {orders.map((o) => (
-            <tr
-              key={o._id}
-              className="border-b last:border-0 hover:bg-slate-50 transition"
-            >
-              <td className="px-4 py-3 text-xs text-slate-500">
-                {formatDate(o.createdAt)}
-              </td>
-              {/* Order ID */}
-              <td className="px-4 py-3 text-xs text-slate-500">
-                {o._id}
-              </td>
-
-              {/* User */}
-              <td className="px-4 py-3 text-slate-700">
-                {o.user?.email || "—"}
-              </td>
-
-              {/* Course */}
-              <td className="px-4 py-3 text-slate-700">
-                {o.course?.title || "—"}
-              </td>
-
-              {/* Amount */}
-              <td className="px-4 py-3 text-right font-medium text-slate-900">
-                ₹{o.amount / 100}
-              </td>
-
-              {/* Status */}
-              <td className="px-4 py-3 text-center">
-                <span
-                  className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                    o.status === "SUCCESS" || o.status === "PAID"
-                      ? "bg-emerald-100 text-emerald-700"
-                      : "bg-yellow-100 text-yellow-700"
-                  }`}
-                >
-                  {o.status}
-                </span>
-              </td>
+        <table className="w-full text-sm">
+          <thead className="bg-slate-50 text-slate-600">
+            <tr>
+              <th className="px-4 py-3 text-left">User</th>
+              <th className="px-4 py-3 text-left">Course</th>
+              <th className="px-4 py-3 text-left">Amount</th>
+              <th className="px-4 py-3 text-left">Date</th>
+              <th className="px-4 py-3 text-left">Status</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  )}
-</div>
+          </thead>
+          <tbody>
+            {payments.map((p) => (
+              <tr key={p._id} className="border-t hover:bg-slate-50">
+                <td className="px-4 py-3">{p.user?.email || "—"}</td>
+                <td className="px-4 py-3">{p.course?.title || "—"}</td>
+                <td className="px-4 py-3">₹{p.amount / 100}</td>
+                <td className="px-4 py-3">
+                  {new Date(p.createdAt).toLocaleDateString()}
+                </td>
+                <td className="px-4 py-3">
+                  <span className="px-3 py-1 text-xs rounded-full bg-emerald-100 text-emerald-700">
+                    {p.status}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div className="flex items-center justify-between px-6 py-4 border-t bg-slate-50">
+          <button
+            disabled={page === 1}
+            onClick={() => setPage((p) => p - 1)}
+            className={`px-4 py-2 text-sm rounded ${
+              page === 1
+                ? "bg-slate-200 text-slate-400 cursor-not-allowed"
+                : "bg-white border hover:bg-slate-100"
+            }`}
+          >
+            Previous
+          </button>
+
+          <span className="text-sm text-slate-600">
+            Page {page} of {pages}
+          </span>
+
+          <button
+            disabled={page === pages}
+            onClick={() => setPage((p) => p + 1)}
+            className={`px-4 py-2 text-sm rounded ${
+              page === pages
+                ? "bg-slate-200 text-slate-400 cursor-not-allowed"
+                : "bg-white border hover:bg-slate-100"
+            }`}
+          >
+            Next
+          </button>
+        </div>
       </div>
+    </AdminLayout>
+  );
+}
+
+function StatCard({ label, value }) {
+  return (
+    <div className="bg-white rounded-xl p-6 shadow-sm">
+      <p className="text-sm text-slate-500">{label}</p>
+      <p className="text-2xl font-semibold mt-1">{value}</p>
     </div>
   );
 }

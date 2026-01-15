@@ -1,98 +1,105 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { registerUser } from "../services/authApi";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
 function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
 
   const submit = async (e) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
 
     try {
-      await registerUser({ name, email, password });
-      setSuccess("Account created successfully. Please login.");
-      setName("");
-      setEmail("");
-      setPassword("");
+      await axios.post("http://localhost:5000/api/auth/register", {
+        name,
+        email,
+        password,
+      });
+
+      navigate("/login");
     } catch (err) {
-      setError(err.response?.data?.message || "Registration failed");
+      alert(err.response?.data?.message || "Registration failed");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm">
-        <h1 className="text-3xl font-bold text-center mb-6 text-blue-600">Online Academy</h1>
-        <h2 className="text-xl font-semibold text-center mb-6">
-          Create an Account
-        </h2>
+    <div className="min-h-screen flex items-center justify-center bg-slate-100">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-sm p-8 m-8">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-semibold text-slate-900">
+            Create Account
+          </h1>
+          <p className="text-sm text-slate-600 mt-1">
+            Join our learning community
+          </p>
+        </div>
 
-        {error && (
-          <div className="bg-red-100 text-red-700 p-2 mb-4 rounded text-sm">
-            {error}
+        {/* Form */}
+        <form onSubmit={submit} className="space-y-5">
+          <div>
+            <label className="block text-sm text-slate-600 mb-1">
+              Full Name
+            </label>
+            <input
+              className="w-full border rounded-lg px-4 py-2"
+              placeholder="Your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
           </div>
-        )}
 
-        {success && (
-          <div className="bg-green-100 text-green-700 p-2 mb-4 rounded text-sm">
-            {success}
+          <div>
+            <label className="block text-sm text-slate-600 mb-1">
+              Email address
+            </label>
+            <input
+              type="email"
+              className="w-full border rounded-lg px-4 py-2"
+              placeholder="student@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </div>
-        )}
 
-        <form onSubmit={submit} className="space-y-4">
-          <input
-            type="text"
-            placeholder="Full Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            className="border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoComplete="email"
-            required
-            className="border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="new-password"
-            required
-            className="border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          <div>
+            <label className="block text-sm text-slate-600 mb-1">
+              Password
+            </label>
+            <input
+              type="password"
+              className="w-full border rounded-lg px-4 py-2"
+              placeholder="Minimum 6 characters"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
 
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+            className="w-full bg-slate-800 text-white py-2.5 rounded-lg hover:bg-slate-900 transition"
           >
-            Register
+            Create Account
           </button>
+          <p className="text-xs text-slate-500 text-center mt-4">
+            Secure access for students & administrators
+          </p>
         </form>
 
-        <div className="mt-4 text-sm text-center">
-          <p>
-            Already have an account?{" "}
-            <Link
-              to="/login"
-              className="text-blue-600 hover:underline font-medium"
-            >
-              Login
-            </Link>
-          </p>
+        {/* Footer */}
+        <div className="mt-6 text-center text-sm text-slate-600">
+          Already have an account?{" "}
+          <Link
+            to="/login"
+            className="text-slate-800 font-medium hover:underline"
+          >
+            Sign in
+          </Link>
         </div>
       </div>
     </div>

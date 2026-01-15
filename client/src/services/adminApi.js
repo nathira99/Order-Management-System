@@ -9,8 +9,8 @@ export const getStats = (token) =>
     },
   });
 
-export const getPayments = (token) =>
-  axios.get(`${API}/payments`, {
+export const getPayments = (token, page = 1, limit = 10) =>
+  axios.get(`${API}/payments?page=${page}&limit=${limit}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

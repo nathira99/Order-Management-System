@@ -91,7 +91,7 @@ function Courses() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 m-10">
       {courses.map((course) => {
         const isEnrolled = enrolledCourseIds.includes(course._id);
 

@@ -45,6 +45,7 @@ function Home() {
   const [faculty, setFaculty] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(1);
 
+  const scrollRef = useRef(null);
   const sliderRef = useRef(null);
   const autoRef = useRef(null);
   const navigate = useNavigate();
@@ -258,7 +259,7 @@ function Home() {
           <div
             className="overflow-hidden px-12"
             style={{ touchAction: "pan-x" }}
-            onWheel={(e) => e.preventDefault()}
+            onWheel={(e) => scrollRef.current.scrollLeft += e.deltaY}
             onMouseEnter={stopAuto}
             onMouseLeave={startAuto}
           >

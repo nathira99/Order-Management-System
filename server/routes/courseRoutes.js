@@ -8,6 +8,7 @@ const {
   toggleCourseStatus,
   updateCourse,
   updateCourseTeacher,
+  getCourseStats
 } = require("../controllers/courseController");
 const { protect, adminOnly } = require("../middlewares/authMiddleware");
 
@@ -26,5 +27,8 @@ router.get("/:id", protect, getCourseById);
 
 router.post("/", protect, adminOnly, createCourse);
 router.put("/:id", protect, adminOnly, updateCourse);
+
+router.get("/admin/stats", protect, adminOnly, getCourseStats);
+
 
 module.exports = router;

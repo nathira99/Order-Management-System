@@ -11,9 +11,9 @@ const { protect, adminOnly } = require("../middlewares/authMiddleware");
 
 
 // Public / Admin
-router.get("/", protect, adminOnly, getTeachers);
+router.get("/", getTeachers);
 // Admin only
-router.post("/", createTeacher);
+router.post("/", protect, adminOnly, createTeacher);
 
 router.get("/:id", getTeacherById);
 router.patch("/admin/:id/teacher", protect, adminOnly, updateTeacher);

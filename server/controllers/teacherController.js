@@ -24,7 +24,7 @@ exports.createTeacher = async (req, res) => {
 };
 
 exports.getTeachers = async (req, res) => {
- try { const teachers = await Teacher.find().select("name email");
+ try { const teachers = await Teacher.find().sort({ createdAt: -1 });
   res.json(teachers);
 } catch (err) {
   res.status(500).json({ message: "Failed to fetch teachers" });

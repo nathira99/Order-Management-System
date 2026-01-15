@@ -140,3 +140,20 @@ exports.updateCourseTeacher = async (req, res) => {
     res.status(500).json({ message: "Failed to assign teacher" });
   }
 };
+
+exports.getCourseStats = async (req, res) => {
+  try {
+    const totalCourses = await Course.countDocuments();
+    const activeCourses = await Course.countDocuments({ isActive: true });
+    const inactiveCourses = await Course.countDocuments({ isActive: false });
+
+    res.json({
+      totalCourses,
+      activeCourses,
+      inactiveCourses
+    });
+  } catch (err) {
+    console.error("COURSE STATS ERROR:", err);
+    res.status(500).json({ message: "Failed to load course stats" });
+  }
+};

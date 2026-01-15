@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import { API } from "../config/api";
 import { useNavigate } from "react-router-dom";
 
 const features = [
@@ -50,7 +51,7 @@ function Home() {
   const autoRef = useRef(null);
   const navigate = useNavigate();
 
-  const API = import.meta.env.REACT_APP_API_URL;
+  // const API = import.meta.env.REACT_APP_API_URL;
 
   const cardWidth = 260;
 

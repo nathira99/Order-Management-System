@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { API } from "../../config/api";
 import { getToken } from "../../utils/auth";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -7,7 +8,7 @@ function EditCourse() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const API = import.meta.env.REACT_APP_API_URL;
+  // const API = import.meta.env.REACT_APP_API_URL;
 
   const [course, setCourse] = useState(null);
   const [teachers, setTeachers] = useState([]);

@@ -1,6 +1,6 @@
 import axios from "axios";
-
-const API = process.env.REACT_APP_API_URL;
+import { API } from "../config/api";
+// const API = process.env.REACT_APP_API_URL;
 
 export const getStats = (token) =>
   axios.get(`${API}/stats`, {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { API } from "../config/api";
 import { getToken } from "../utils/auth";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 
@@ -9,7 +10,7 @@ function Courses() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const API = import.meta.env.REACT_APP_API_URL;
+  // const API = import.meta.env.REACT_APP_API_URL;
 
   useEffect(() => {
     axios

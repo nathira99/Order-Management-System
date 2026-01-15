@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import { API } from "../../config/api";
 import { getToken } from "../../utils/auth";
 import { Link } from "react-router-dom";
 import AdminLayout from "../../pages/admin/AdminLayout";
@@ -10,7 +11,7 @@ function CourseList() {
   const [loading, setLoading] = useState(true);
 
   const token = getToken();
-  const API = import.meta.env.REACT_APP_API_URL;
+  // const API = import.meta.env.REACT_APP_API_URL;
 
   // ✅ Memoized functions
   const loadCourses = useCallback(async () => {

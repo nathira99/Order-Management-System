@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { API } from "../../config/api";
 import { getToken } from "../../utils/auth";
 
 function TeachersList() {
   const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const API = import.meta.env.REACT_APP_API_URL;
+  // const API = import.meta.env.REACT_APP_API_URL;
 
   useEffect(() => {
     axios

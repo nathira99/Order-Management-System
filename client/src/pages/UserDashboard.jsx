@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { API } from "../config/api";
 import { getToken } from "../utils/auth";
 
 function UserDashboard() {
   const [enrollments, setEnrollments] = useState([]);
   const token = getToken();
 
-  const API = import.meta.env.REACT_APP_API_URL;
+  // const API = import.meta.env.REACT_APP_API_URL;
 
   useEffect(() => {
     axios

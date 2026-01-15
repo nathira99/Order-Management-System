@@ -24,7 +24,7 @@ function AdminDashboard() {
       })
       .then((res) => setCourseStats(res.data))
       .catch((err) => console.error("COURSE STATS ERROR:", err));
-  }, [token, API]);
+  }, [token]);
 
   useEffect(() => {
     const load = async () => {

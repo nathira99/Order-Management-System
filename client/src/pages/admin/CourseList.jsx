@@ -19,14 +19,14 @@ function CourseList() {
       headers: { Authorization: `Bearer ${token}` },
     });
     setCourses(res.data);
-  }, [API, token]);
+  }, [token]);
 
   const loadTeachers = useCallback(async () => {
     const res = await axios.get(`${API}/api/teachers`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     setTeachers(res.data);
-  }, [API, token]);
+  }, [token]);
 
   // ✅ Correct dependency array
   useEffect(() => {

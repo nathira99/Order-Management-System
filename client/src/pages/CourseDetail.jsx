@@ -22,7 +22,7 @@ function CourseDetail() {
       .then((res) => setCourse(res.data))
       .catch(() => setCourse(null))
       .finally(() => setLoading(false));
-  }, [API, id]);
+  }, [id]);
 
   useEffect(() => {
     const token = getToken();
@@ -37,7 +37,7 @@ function CourseDetail() {
         setIsEnrolled(enrolledIds.includes(id));
       })
       .catch(() => {});
-  }, [API, id]);
+  }, [id]);
 
   const handleEnroll = () => {
     const token = getToken();

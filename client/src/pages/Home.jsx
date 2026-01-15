@@ -61,7 +61,7 @@ function Home() {
       .get(`${API}/api/courses`)
       .then((res) => setCourses(res.data))
       .catch(() => {});
-  }, [API]);
+  }, []);
 
   /* ---------------- FETCH FACULTY (BACKEND) ---------------- */
   useEffect(() => {
@@ -69,7 +69,7 @@ function Home() {
       .get(`${API}/api/teachers`)
       .then((res) => setFaculty(res.data))
       .catch(() => {});
-  }, [API]);
+  }, []);
 
   /* ---------------- EXTENDED LIST (INFINITE) ---------------- */
   const extendedFaculty =

@@ -22,7 +22,7 @@ function EditCourse() {
       })
       .then(res => setCourse(res.data))
       .catch(() => alert("Failed to load course"));
-  }, [API, id]);
+  }, [id]);
 
   /* 🔹 Fetch teachers */
   useEffect(() => {
@@ -32,7 +32,7 @@ function EditCourse() {
       })
       .then(res => setTeachers(res.data))
       .catch(() => {});
-  }, [API]);
+  }, []);
 
   const update = async (e) => {
     e.preventDefault();

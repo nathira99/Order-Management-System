@@ -15,7 +15,7 @@ app.use(cors(
     origin: "*",
   }
 ));
-app.use(express.static(Path.join(__dirname,"client/build")));
+app.use(express.static(path.join(__dirname,"client/build")));
 
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/orders", require("./routes/orderRoutes"));
@@ -26,7 +26,7 @@ app.use("/api/courses", require("./routes/courseRoutes"));
 app.use("/api/teachers", require("./routes/teacherRoutes"));
 
 app.get("*", (req, res) => {
-  res.sendFile(Path.join(__dirname,"client/build/index.html"));
+  res.sendFile(path.join(__dirname,"client/build/index.html"));
 });
 
 app.get("/api/protected", protect, (req, res) => {

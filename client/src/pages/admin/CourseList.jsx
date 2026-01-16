@@ -7,7 +7,6 @@ import AdminLayout from "../../pages/admin/AdminLayout";
 
 function CourseList() {
   const [courses, setCourses] = useState([]);
-  // const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const token = getToken();
@@ -21,18 +20,17 @@ function CourseList() {
     setCourses(res.data);
   }, [token]);
 
-  const loadTeachers = useCallback(async () => {
-    const res = await axios.get(`${API}/api/teachers`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    setTeachers(res.data);
-  }, [token]);
+  // const loadTeachers = useCallback(async () => {
+  //   const res = await axios.get(`${API}/api/teachers`, {
+  //     headers: { Authorization: `Bearer ${token}` },
+  //   });
+  //   setTeachers(res.data);
+  // }, [token]);
 
   // ✅ Correct dependency array
   useEffect(() => {
-    Promise.all([loadCourses(), loadTeachers()])
-      .finally(() => setLoading(false));
-  }, [loadCourses, loadTeachers]);
+    loadCourses().finally(() => setLoading(false));
+  }, [loadCourses]);
 
   // Toggle active status
   const toggleStatus = async (courseId) => {
@@ -133,7 +131,7 @@ function CourseList() {
 
                     {/* Teacher*/}
                     <td className="px-4 py-3">
-                      {c.teacher?.name || (
+                      {c.teachers?.name || (
                         <span className="text-sm text-slate-500">
                           Unassigned
                         </span>

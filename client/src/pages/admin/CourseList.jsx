@@ -131,9 +131,9 @@ function CourseList() {
                       </button>
                     </td>
 
-                    {/* Teacher Assign */}
+                    {/* Teacher*/}
                     <td className="px-4 py-3">
-                      {c.teacher}
+                      {c.teachers}
                     </td>
 
                     {/* Enrolled Count */}

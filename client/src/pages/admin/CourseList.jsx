@@ -7,7 +7,7 @@ import AdminLayout from "../../pages/admin/AdminLayout";
 
 function CourseList() {
   const [courses, setCourses] = useState([]);
-  const [teachers, setTeachers] = useState([]);
+  // const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const token = getToken();
@@ -50,17 +50,17 @@ function CourseList() {
   };
 
   // Assign teacher
-  const assignTeacher = async (courseId, teacherId) => {
-    const res = await axios.patch(
-      `${API}/api/courses/admin/${courseId}/teacher`,
-      { teacherId },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+  // const assignTeacher = async (courseId, teacherId) => {
+  //   const res = await axios.patch(
+  //     `${API}/api/courses/admin/${courseId}/teacher`,
+  //     { teacherId },
+  //     { headers: { Authorization: `Bearer ${token}` } }
+  //   );
 
-    setCourses((prev) =>
-      prev.map((c) => (c._id === courseId ? res.data : c))
-    );
-  };
+  //   setCourses((prev) =>
+  //     prev.map((c) => (c._id === courseId ? res.data : c))
+  //   );
+  // };
 
   return (
     <AdminLayout>
@@ -133,7 +133,11 @@ function CourseList() {
 
                     {/* Teacher*/}
                     <td className="px-4 py-3">
-                      {c.teachers}
+                      {c.teacher?.name || (
+                        <span className="text-sm text-slate-500">
+                          Unassigned
+                        </span>
+                      )}
                     </td>
 
                     {/* Enrolled Count */}

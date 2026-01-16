@@ -9,7 +9,6 @@ function Register() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  // const API = import.meta.env.REACT_APP_API_URL;
 
   const submit = async (e) => {
     e.preventDefault();

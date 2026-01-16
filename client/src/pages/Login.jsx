@@ -2,12 +2,14 @@ import { useState } from "react";
 import { loginUser } from "../services/authApi";
 import { setToken, getRole } from "../utils/auth";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import API from "../config/api";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+
   const submit = async (e) => {
     e.preventDefault();
 
@@ -20,6 +22,7 @@ function Login() {
 
       if (role === "admin") navigate("/admin");
       else navigate(redirectTo);
+      console.log(res.data);
     } catch (err) {
       alert(err.response?.data?.message || "Login failed");
     }

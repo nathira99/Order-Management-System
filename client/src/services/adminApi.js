@@ -3,7 +3,7 @@ import API from "../config/api";
 // const API = process.env.REACT_APP_API_URL;
 
 export const getStats = (token) =>
-  axios.get(`${API}/api/adminstats`, {
+  axios.get(`${API}/api/admin/stats`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
